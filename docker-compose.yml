@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+   phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+        - mysql:mysql
+    ports:
+     - 9191:80
+    environment:
+        MYSQL_USERNAME: root
+        MYSQL_ROOT_PASSWORD: pw
+        PMA_HOST: mysql
+
+   mysql:
+    image: mysql
+    container_name: mysql
+    ports:
+     - 6603:3306
+    environment:
+        MYSQL_ROOT_PASSWORD: "mypassword"
+        volumes:
