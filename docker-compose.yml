@@ -1,22 +1,21 @@
 version: '2'
 
-services:
-   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    links:
-        - mysql:mysql
-    ports:
-     - 9191:80
-    environment:
-        MYSQL_USERNAME: root
-        MYSQL_ROOT_PASSWORD: pw
-        PMA_HOST: mysql
 
-   mysql:
-    image: mysql
-    container_name: mysql
-    ports:
-     - 6603:3306
-    environment:
-        MYSQL_ROOT_PASSWORD: "mypassword"
-        volumes:
+services:
+
+    db:
+        extends:
+            file: etc/docker/common/db/docker-compose.yml
+            service: db
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links:
+            - db
+        ports:
+            - 8181:80
+        environment:
+            PMA_USER: root
+            PMA_PASSWORD:
+            PMA_HOST: db
+            PMA_PORT: 3306
