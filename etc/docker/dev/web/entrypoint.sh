@@ -5,11 +5,6 @@ set -e
 usermod -u `stat -c %u /var/www/html` www-data || true
 groupmod -g `stat -c %g /var/www/html` www-data || true
 
-mkdir -p /var/www/html/var
-mkdir -p /var/www/html/media
-
-chmod 777 /var/www/html/var
-chmod 777 /var/www/html/media
 
 if [ "$1" = 'apache2-foreground' ]; then
     rm -f /var/run/apache2/apache2.pid
@@ -17,3 +12,5 @@ if [ "$1" = 'apache2-foreground' ]; then
 else
     su www-data -s /bin/bash -c "$*"
 fi
+
+
