@@ -2,6 +2,11 @@ version: '2'
 
 
 services:
+    data:
+        image: alpine
+        command: /bin/true
+        volumes:
+        - ./webroot:/var/www/html
 
     db:
         extends:
@@ -19,3 +24,16 @@ services:
             PMA_PASSWORD:
             PMA_HOST: db
             PMA_PORT: 3306
+    web: &web
+        build: etc/docker/dev/web
+        ports:
+        - "8000:80"
+        links:
+        - db
+        environment:
+        - WEBROOT="/var/www/html"
+        volumes_from:
+        - data
+        volumes:
+        - ./etc/docker/dev/web/php.ini:/usr/local/etc/php/php.ini
+        - ./etc/docker/dev/web/entrypoint.sh:/docker-entrypoint.sh
